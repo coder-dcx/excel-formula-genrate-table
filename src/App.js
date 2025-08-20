@@ -43,6 +43,126 @@ const _OperatorList = ['+', '-', '*', '/'];
 const _ConditionList = ['=', '<', '>', '<>'];
 const _FunctionList = ['cellValue', 'number', 'textbox', 'operator', 'if', 'lookup'];
 
+// Global dynamic cell values list that persists across component renders
+let dynamicCellValues = [];
+
+// Helper function to get all available cell values
+const getAllCellValues = () => [..._cellValueList, ...dynamicCellValues];
+
+// Helper function to clear dynamic values (useful for testing)
+const clearDynamicCellValues = () => {
+  dynamicCellValues = [];
+};
+
+// Enhanced Autocomplete Component for CellValue with dynamic list management
+const EnhancedCellValueAutocomplete = ({ value, onChange, label = "Cell Value", placeholder = "Select or type cell reference", showChips = true }) => {
+  const [, forceUpdate] = useState({});
+  const [inputValue, setInputValue] = useState(value || '');
+  
+  // Combine original list with dynamic values
+  const allCellValues = [..._cellValueList, ...dynamicCellValues];
+  
+  const addNewCellValue = (newValue) => {
+    if (newValue && !allCellValues.includes(newValue)) {
+      dynamicCellValues.push(newValue);
+      forceUpdate({}); // Force re-render to show the new value
+    }
+  };
+  
+  // Update inputValue when value prop changes
+  React.useEffect(() => {
+    setInputValue(value || '');
+  }, [value]);
+  
+  return (
+    <Autocomplete
+      value={value}
+      inputValue={inputValue}
+      onChange={(event, newValue) => {
+        const cleanValue = newValue ? newValue.replace(' (new)', '') : '';
+        if (cleanValue && !allCellValues.includes(cleanValue)) {
+          addNewCellValue(cleanValue);
+        }
+        onChange(cleanValue);
+        setInputValue(cleanValue);
+      }}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+        // Only update the actual value if it's a selection, not just typing
+        if (event && event.type === 'change' && allCellValues.includes(newInputValue)) {
+          onChange(newInputValue);
+        } else if (event && event.type !== 'change') {
+          // Update value when user types and it's not just a filter
+          onChange(newInputValue);
+        }
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' && inputValue && !allCellValues.includes(inputValue)) {
+          event.preventDefault();
+          const cleanValue = inputValue.replace(' (new)', '');
+          addNewCellValue(cleanValue);
+          onChange(cleanValue);
+        }
+      }}
+      options={allCellValues}
+      freeSolo
+      selectOnFocus
+      clearOnBlur={false}
+      handleHomeEndKeys
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          placeholder={placeholder}
+          size="small"
+          fullWidth
+          variant="outlined"
+        />
+      )}
+      renderOption={showChips ? (option) => (
+        <div className="cell-value-option" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+          {option.includes(' (new)') && (
+            <Chip size="small" label="NEW" color="success" variant="outlined" />
+          )}
+          {option.startsWith('[') && option.endsWith(']') && !option.includes(' (new)') && (
+            <Chip size="small" label="[ ]" color="primary" variant="outlined" />
+          )}
+          {/^[A-Z]+[0-9]+$/i.test(option) && !option.includes(' (new)') && (
+            <Chip size="small" label="Excel" color="secondary" variant="outlined" />
+          )}
+          {!/^[A-Z]+[0-9]+$/i.test(option) && !option.startsWith('[') && 
+           !['cell value 1', 'cell value 2', 'cell value 3', 'cell value 4'].includes(option) && 
+           !option.includes(' (new)') && !dynamicCellValues.includes(option) && (
+            <Chip size="small" label="Custom" color="default" variant="outlined" />
+          )}
+          {dynamicCellValues.includes(option) && !option.includes(' (new)') && (
+            <Chip size="small" label="Added" color="info" variant="outlined" />
+          )}
+          <Typography variant="body2" style={{ flex: 1 }}>
+            {option.replace(' (new)', '')}
+          </Typography>
+        </div>
+      ) : undefined}
+      filterOptions={(options, { inputValue: filterInputValue }) => {
+        // Show matching options based on the current input
+        const filtered = options.filter(option =>
+          option.toLowerCase().includes(filterInputValue.toLowerCase())
+        );
+        
+        // If input doesn't match any existing option and has content, suggest it as new
+        if (filterInputValue !== '' && !options.includes(filterInputValue) && filterInputValue.trim()) {
+          filtered.push(`${filterInputValue} (new)`);
+        }
+        
+        return filtered;
+      }}
+      getOptionLabel={(option) => {
+        return option.replace(' (new)', '');
+      }}
+    />
+  );
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1200,
@@ -147,29 +267,12 @@ const ConditionOperand = ({ node, onChange, label }) => {
       </FormControl>
       
       {node.type === 'cellValue' && (
-        <Autocomplete
+        <EnhancedCellValueAutocomplete
           value={node.value}
-          onChange={(event, newValue) => {
-            onChange({ ...node, value: newValue || '' });
-          }}
-          onInputChange={(event, newInputValue) => {
-            onChange({ ...node, value: newInputValue });
-          }}
-          options={_cellValueList}
-          freeSolo
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Cell Value"
-              placeholder="Select or type cell reference"
-              size="small"
-              fullWidth
-              variant="outlined"
-            />
-          )}
+          onChange={(newValue) => onChange({ ...node, value: newValue })}
+          label="Cell Value"
+          placeholder="Select or type cell reference"
+          showChips={false}
         />
       )}
       
@@ -291,68 +394,17 @@ const FormulaNode = ({ node, onChange }) => {
       return (
         <Paper className={classes.nodeContainer}>
           {renderTypeControl()}
-          <Autocomplete
+          <EnhancedCellValueAutocomplete
             value={node.value}
-            onChange={(event, newValue) => {
-              // Handle both selection and custom input
-              onChange({ ...node, value: newValue || '' });
-            }}
-            onInputChange={(event, newInputValue) => {
-              // Update value as user types
-              onChange({ ...node, value: newInputValue });
-            }}
-            options={_cellValueList}
-            freeSolo // Allow custom values not in the list
-            selectOnFocus
-            clearOnBlur
-            handleHomeEndKeys
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Cell Value"
-                placeholder="Select or type cell reference (e.g., [99999], A1, OT1.1)"
-                size="small"
-                fullWidth
-                variant="outlined"
-              />
-            )}
-            renderOption={(option) => (
-              <div className="cell-value-option">
-                {option.startsWith('[') && option.endsWith(']') && (
-                  <Chip size="small" label="[ ]" color="primary" variant="outlined" />
-                )}
-                {/^[A-Z]+[0-9]+$/i.test(option) && (
-                  <Chip size="small" label="Excel" color="secondary" variant="outlined" />
-                )}
-                {!/^[A-Z]+[0-9]+$/i.test(option) && !option.startsWith('[') && option !== 'cell value 1' && option !== 'cell value 2' && option !== 'cell value 3' && option !== 'cell value 4' && (
-                  <Chip size="small" label="Custom" color="default" variant="outlined" />
-                )}
-                <Typography variant="body2" style={{ flex: 1 }}>
-                  {option}
-                </Typography>
-              </div>
-            )}
-            filterOptions={(options, { inputValue }) => {
-              // Show matching options
-              const filtered = options.filter(option =>
-                option.toLowerCase().includes(inputValue.toLowerCase())
-              );
-              
-              // If input doesn't match any existing option and has content, suggest it as new
-              if (inputValue !== '' && !options.includes(inputValue) && inputValue.trim()) {
-                filtered.unshift(`${inputValue} (new)`);
-              }
-              
-              return filtered;
-            }}
-            getOptionLabel={(option) => {
-              // Remove "(new)" suffix for display
-              return option.replace(' (new)', '');
-            }}
+            onChange={(newValue) => onChange({ ...node, value: newValue })}
+            label="Cell Value"
+            placeholder="Select or type cell reference (e.g., [99999], A1, OT1.1)"
+            showChips={true}
           />
           <Typography variant="caption" style={{ color: '#666', marginTop: '4px', display: 'block' }}>
-            💡 <strong>Smart autocomplete:</strong> Type to search or create new values. 
-            Bracket refs like [99999] are auto-detected. Press Enter to confirm.
+            💡 <strong>Smart autocomplete:</strong> Type to search existing values or create new ones. 
+            New values marked as "(new)" can be added by clicking or pressing Enter. 
+            Bracket refs like [99999] and Excel refs like A1 are auto-detected.
           </Typography>
         </Paper>
       );
