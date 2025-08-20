@@ -165,187 +165,271 @@ const EnhancedCellValueAutocomplete = ({ value, onChange, label = "Cell Value", 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 1200,
-    margin: '0 auto',
-    padding: theme.spacing(2),
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     minHeight: '100vh',
-  },
-  container: {
-    backgroundColor: 'white',
-    borderRadius: '12px',
+    background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
     padding: theme.spacing(3),
-    margin: theme.spacing(1, 0),
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
+  },
+  appContainer: {
+    maxWidth: 1400,
+    margin: '0 auto',
   },
   header: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    borderRadius: '20px 20px 0 0',
+    padding: theme.spacing(4, 6),
+    color: 'white',
     textAlign: 'center',
+    boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
+    marginBottom: 0,
+  },
+  mainContainer: {
+    backgroundColor: 'white',
+    borderRadius: '0 0 20px 20px',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden',
+    border: '1px solid rgba(102, 126, 234, 0.1)',
+  },
+  contentArea: {
+    padding: theme.spacing(4, 6),
+  },
+  sectionCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: '16px',
+    padding: theme.spacing(3),
     marginBottom: theme.spacing(3),
-    paddingBottom: theme.spacing(2),
-    borderBottom: `2px solid ${theme.palette.divider}`,
-  },
-  formulaSection: {
-    marginBottom: theme.spacing(2),
-  },
-  nodeContainer: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(1.5),
-    border: '2px solid #e3f2fd',
-    borderRadius: '12px',
-    backgroundColor: '#fafafa',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    border: '1px solid #f0f2f7',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     '&:hover': {
-      borderColor: '#2196f3',
-      boxShadow: '0 4px 20px rgba(33, 150, 243, 0.15)',
-      backgroundColor: '#fff',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
       transform: 'translateY(-2px)',
+    },
+  },
+  sectionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing(3),
+    paddingBottom: theme.spacing(2),
+    borderBottom: '2px solid #f0f2f7',
+  },
+  sectionTitle: {
+    fontSize: '1.25rem',
+    fontWeight: 600,
+    color: '#2c3e50',
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
+  primaryButton: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    borderRadius: '12px',
+    padding: theme.spacing(1.5, 3),
+    textTransform: 'none',
+    fontWeight: 600,
+    fontSize: '0.95rem',
+    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+    border: 'none',
+    color: 'white',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      background: 'linear-gradient(135deg, #5a6fd8 0%, #6b4190 100%)',
+      boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
+      transform: 'translateY(-2px)',
+    },
+  },
+  secondaryButton: {
+    borderRadius: '12px',
+    padding: theme.spacing(1, 2.5),
+    textTransform: 'none',
+    fontWeight: 500,
+    border: '2px solid #e2e8f0',
+    color: '#64748b',
+    backgroundColor: 'white',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      borderColor: '#667eea',
+      color: '#667eea',
+      backgroundColor: '#f8fafc',
+      transform: 'translateY(-1px)',
+    },
+  },
+  formulaCard: {
+    backgroundColor: '#fafbfc',
+    borderRadius: '16px',
+    padding: theme.spacing(3),
+    marginBottom: theme.spacing(2),
+    border: '2px solid #e2e8f0',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      borderColor: '#667eea',
+      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.15)',
+      backgroundColor: '#ffffff',
+    },
+  },
+  formulaHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    border: '1px solid #e2e8f0',
+  },
+  nodeContainer: {
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    padding: theme.spacing(2.5),
+    border: '2px solid #e2e8f0',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      borderColor: '#667eea',
+      boxShadow: '0 4px 20px rgba(102, 126, 234, 0.15)',
     },
   },
   compactRow: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(1.5),
-    padding: theme.spacing(1.5),
-    borderRadius: '8px',
-    backgroundColor: '#fff',
-    border: '1px solid #e0e0e0',
+    gap: theme.spacing(2),
+    padding: theme.spacing(2),
+    backgroundColor: '#f8fafc',
+    borderRadius: '12px',
+    border: '1px solid #e2e8f0',
     transition: 'all 0.2s ease-in-out',
     '&:hover': {
-      borderColor: '#2196f3',
-      boxShadow: '0 2px 8px rgba(33, 150, 243, 0.1)',
-    },
-  },
-  typeSelector: {
-    minWidth: 100,
-    maxWidth: 100,
-    '& .MuiOutlinedInput-root': {
-      borderRadius: '8px',
-    },
-    '& .MuiSelect-root': {
-      fontSize: '0.875rem',
-      fontWeight: 500,
+      backgroundColor: 'white',
+      borderColor: '#667eea',
+      boxShadow: '0 2px 8px rgba(102, 126, 234, 0.1)',
     },
   },
   inputField: {
     flex: 1,
     '& .MuiOutlinedInput-root': {
-      borderRadius: '8px',
-      '&:hover .MuiOutlinedInput-notchedOutline': {
-        borderColor: '#2196f3',
+      borderRadius: '12px',
+      backgroundColor: 'white',
+      border: '2px solid #e2e8f0',
+      '&:hover': {
+        borderColor: '#667eea',
+      },
+      '&.Mui-focused': {
+        borderColor: '#667eea',
+        boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.1)',
       },
     },
     '& .MuiInputLabel-root': {
-      fontSize: '0.875rem',
+      color: '#64748b',
       fontWeight: 500,
     },
   },
-  resetButton: {
-    minWidth: 40,
-    height: 40,
-    borderRadius: '8px',
-    backgroundColor: '#f5f5f5',
-    border: '1px solid #e0e0e0',
-    transition: 'all 0.2s ease-in-out',
-    '&:hover': {
-      backgroundColor: '#e3f2fd',
-      borderColor: '#2196f3',
-      color: '#2196f3',
+  typeSelector: {
+    minWidth: 120,
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '12px',
+      backgroundColor: 'white',
+      border: '2px solid #e2e8f0',
+      '&:hover': {
+        borderColor: '#667eea',
+      },
     },
-  },
-  operatorChip: {
-    margin: theme.spacing(0.5),
-  },
-  previewSection: {
-    marginTop: theme.spacing(2),
-  },
-  codeBlock: {
-    backgroundColor: '#f8f9fa',
-    padding: theme.spacing(2),
-    borderRadius: '8px',
-    fontFamily: 'JetBrains Mono, Consolas, Monaco, monospace',
-    fontSize: '13px',
-    whiteSpace: 'pre-wrap',
-    wordWrap: 'break-word',
-    maxHeight: 300,
-    overflow: 'auto',
-    border: '1px solid #e0e0e0',
-  },
-  sectionHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    padding: theme.spacing(1.5, 2),
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    border: '1px solid #e0e0e0',
-    marginBottom: theme.spacing(1),
-    fontWeight: 600,
-    fontSize: '0.875rem',
-    color: '#1976d2',
-  },
-  collapsibleHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    padding: theme.spacing(1.5, 2),
-    backgroundColor: 'linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%)',
-    borderRadius: '8px',
-    border: '1px solid #e0e0e0',
-    '&:hover': {
-      backgroundColor: 'linear-gradient(135deg, #bbdefb 0%, #e1bee7 100%)',
+    '& .MuiSelect-root': {
+      fontWeight: 500,
+      color: '#2c3e50',
     },
-  },
-  helpText: {
-    fontSize: '0.75rem',
-    color: '#666',
-    marginTop: theme.spacing(1),
-    padding: theme.spacing(1),
-    backgroundColor: '#f8f9fa',
-    borderRadius: '6px',
-    border: '1px solid #e0e0e0',
-    lineHeight: 1.4,
-  },
-  conditionGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr auto 1fr',
-    gap: theme.spacing(2),
-    alignItems: 'end',
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(2),
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    border: '1px solid #e0e0e0',
   },
   previewCard: {
-    marginTop: theme.spacing(2),
-    borderRadius: '12px',
-    background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-    border: '1px solid #e0e7ff',
+    backgroundColor: 'white',
+    borderRadius: '16px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    border: '1px solid #f0f2f7',
+    marginBottom: theme.spacing(3),
+    overflow: 'hidden',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     '&:hover': {
-      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
       transform: 'translateY(-2px)',
     },
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   },
   previewHeader: {
-    backgroundColor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     color: 'white',
-    borderRadius: '12px 12px 0 0',
+    padding: theme.spacing(2.5, 3),
     '& .MuiCardHeader-title': {
       fontSize: '1.1rem',
       fontWeight: 600,
     },
   },
   previewContent: {
-    backgroundColor: 'white',
-    borderRadius: '0 0 12px 12px',
+    padding: theme.spacing(3),
+    backgroundColor: '#fafbfc',
     '& pre': {
+      backgroundColor: 'white',
+      padding: theme.spacing(2),
+      borderRadius: '8px',
+      border: '1px solid #e2e8f0',
+      fontSize: '0.9rem',
+      lineHeight: 1.6,
       margin: 0,
-      fontSize: '0.85rem',
-      lineHeight: 1.5,
     },
+  },
+  importCard: {
+    background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+    borderRadius: '16px',
+    border: '2px solid #e2e8f0',
+    marginBottom: theme.spacing(3),
+    overflow: 'hidden',
+  },
+  importHeader: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    padding: theme.spacing(2.5, 3),
+  },
+  importContent: {
+    padding: theme.spacing(3),
+    backgroundColor: 'white',
+  },
+  tipBox: {
+    backgroundColor: '#f0f9ff',
+    border: '2px solid #bae6fd',
+    borderRadius: '12px',
+    padding: theme.spacing(2.5),
+    marginTop: theme.spacing(2),
+    '& .MuiTypography-root': {
+      color: '#0369a1',
+      fontWeight: 500,
+    },
+  },
+  conditionGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+    gap: theme.spacing(2),
+    alignItems: 'center',
+    padding: theme.spacing(3),
+    backgroundColor: '#f8fafc',
+    borderRadius: '12px',
+    border: '2px solid #e2e8f0',
+    marginBottom: theme.spacing(2),
+  },
+  operatorChip: {
+    backgroundColor: '#667eea',
+    color: 'white',
+    fontWeight: 600,
+    borderRadius: '8px',
+    '&:hover': {
+      backgroundColor: '#5a6fd8',
+    },
+  },
+  codeBlock: {
+    backgroundColor: '#1e293b',
+    color: '#e2e8f0',
+    padding: theme.spacing(2.5),
+    borderRadius: '12px',
+    fontFamily: 'JetBrains Mono, Consolas, Monaco, monospace',
+    fontSize: '0.9rem',
+    lineHeight: 1.6,
+    border: '1px solid #334155',
+    overflow: 'auto',
+    maxHeight: 300,
   },
 }));
 
@@ -1619,63 +1703,49 @@ const FormulaBuilder = () => {
 
   return (
     <Box className={classes.root}>
-      <Paper className={classes.container} elevation={8}>
+      <Box className={classes.appContainer}>
+        {/* Professional Header */}
         <Box className={classes.header}>
-          <Typography variant="h3" component="h1" sx={{ 
-            background: 'linear-gradient(45deg, #2196f3, #21cbf3)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+          <Typography variant="h2" component="h1" sx={{ 
             fontWeight: 700,
-            mb: 2
+            fontSize: { xs: '2rem', md: '2.5rem' },
+            mb: 2,
+            textShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            🧮 Excel Formula Builder
+            ⚡ Excel Formula Builder Pro
           </Typography>
           <Typography variant="h6" sx={{ 
-            color: '#666', 
+            opacity: 0.9,
             fontWeight: 400,
             lineHeight: 1.6,
-            maxWidth: 600,
-            mx: 'auto'
+            maxWidth: 800,
+            mx: 'auto',
+            fontSize: '1.1rem'
           }}>
-            Build complex Excel formulas visually using our intuitive interface. 
-            Create nested formulas, add conditions, and see real-time previews of your work.
+            Create powerful Excel formulas with our professional visual builder. 
+            Design complex logic, nested conditions, and advanced calculations with ease.
           </Typography>
         </Box>
 
-        <Box mb={4}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-            <Typography variant="h5" sx={{ 
-              color: '#1976d2', 
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1
-            }}>
-              📝 Formula Workspace
-            </Typography>
-            <Button 
-              onClick={addFormula} 
-              variant="contained" 
-              size="large"
-              startIcon={<AddIcon />}
-              sx={{
-                borderRadius: '12px',
-                textTransform: 'none',
-                fontWeight: 600,
-                px: 3,
-                py: 1.5,
-                background: 'linear-gradient(45deg, #2196f3, #21cbf3)',
-                '&:hover': {
-                  background: 'linear-gradient(45deg, #1976d2, #039be5)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 8px 25px rgba(33, 150, 243, 0.3)',
-                },
-              }}
-            >
-              Add New Formula
-            </Button>
-          </Box>
+        {/* Main Content Area */}
+        <Box className={classes.mainContainer}>
+          <Box className={classes.contentArea}>
+            {/* Formula Workspace Section */}
+            <Box className={classes.sectionCard}>
+              <Box className={classes.sectionHeader}>
+                <Typography className={classes.sectionTitle}>
+                  🎯 Formula Workspace
+                </Typography>
+                <Button 
+                  onClick={addFormula} 
+                  variant="contained"
+                  size="large"
+                  startIcon={<AddIcon />}
+                  className={classes.primaryButton}
+                >
+                  Add New Formula
+                </Button>
+              </Box>
 
           {/* Import/Decode Section */}
           <Card sx={{ 
@@ -1855,7 +1925,9 @@ const FormulaBuilder = () => {
             </Box>
           </CardContent>
         </Card>
-      </Paper>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };
