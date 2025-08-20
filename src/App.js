@@ -1115,7 +1115,7 @@ const FormulaNode = ({ node, onChange }) => {
         </Paper>
       );
 
-    case 'operator':
+    case 'operator': 
       return (
         <Collapsible
           label={
@@ -1136,7 +1136,7 @@ const FormulaNode = ({ node, onChange }) => {
                 </FormControl>
                 <FunctionsIcon color="primary" />
                 <Typography variant="body2" color="primary" style={{ fontWeight: 'bold' }}>
-                  Operator: {node.operators ? node.operators.join(' ') : node.operator || '+'}
+                  Math Expression ({(node.args || []).length} values, {(node.operators || [node.operator] || ['+']).length} operations)
                 </Typography>
               </Box>
               <Box ml="auto">
@@ -1161,7 +1161,7 @@ const FormulaNode = ({ node, onChange }) => {
           <Box>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
               <Typography variant="h6" color="primary">
-                📋 Arguments & Operators
+                📋 Math Operations ({(node.args || []).length} values)
               </Typography>
               <Button
                 size="small"
@@ -1178,7 +1178,7 @@ const FormulaNode = ({ node, onChange }) => {
                   });
                 }}
               >
-                Add Argument
+                Add Value
               </Button>
             </Box>
             
@@ -1188,7 +1188,7 @@ const FormulaNode = ({ node, onChange }) => {
                 <Paper className={classes.nodeContainer}>
                   <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                     <Typography variant="body2" style={{ fontWeight: 'bold', color: '#6c757d' }}>
-                      Argument {i + 1}
+                      Value {i + 1}
                     </Typography>
                     {(node.args || []).length > 2 && (
                       <IconButton
@@ -1203,6 +1203,7 @@ const FormulaNode = ({ node, onChange }) => {
                             operators: newOperators.length > 0 ? newOperators : ['+']
                           });
                         }}
+                        title="Remove this value"
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -1218,66 +1219,81 @@ const FormulaNode = ({ node, onChange }) => {
                   />
                 </Paper>
                 
-                {/* Operator after this argument (except for the last argument) */}
+                {/* Operator between values */}
                 {i < (node.args || []).length - 1 && (
-                  <Box display="flex" justifyContent="center" my={1}>
-                    <FormControl 
-                      size="small" 
-                      style={{ minWidth: 180 }}
-                      className={classes.typeSelector}
+                  <Box display="flex" justifyContent="center" my={2} alignItems="center">
+                    <Box 
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        backgroundColor: '#f8fafc',
+                        borderRadius: '12px',
+                        padding: '8px 16px',
+                        border: '2px solid #e2e8f0',
+                      }}
                     >
-                      <InputLabel>Operator</InputLabel>
-                      <Select
-                        value={(node.operators || [node.operator] || ['+'])[i] || '+'}
-                        onChange={(e) => {
-                          const newOperators = [...(node.operators || [node.operator] || ['+'])];
-                          newOperators[i] = e.target.value;
-                          onChange({ 
-                            ...node, 
-                            operators: newOperators,
-                            operator: undefined // Remove old single operator property
-                          });
-                        }}
-                        MenuProps={{
-                          classes: { paper: classes.enhancedDropdown },
-                          PaperProps: {
-                            style: {
-                              borderRadius: '16px',
-                              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
-                              border: '1px solid #e2e8f0',
-                              marginTop: '8px',
-                            },
-                          },
-                        }}
+                      <Typography variant="caption" sx={{ color: '#64748b', fontWeight: 600 }}>
+                        Operation {i + 1}:
+                      </Typography>
+                      <FormControl 
+                        size="small" 
+                        style={{ minWidth: 180 }}
+                        className={classes.typeSelector}
                       >
-                        {_OperatorList.map((op) => (
-                          <MenuItem key={op} value={op}>
-                            <Box display="flex" alignItems="center" width="100%">
-                              <Box className={classes.dropdownIcon} sx={{ 
-                                backgroundColor: op === '+' ? '#e8f5e8' : 
-                                                op === '-' ? '#fff3e0' : 
-                                                op === '*' ? '#e3f2fd' : '#fce4ec',
-                                color: op === '+' ? '#2e7d32' : 
-                                       op === '-' ? '#f57c00' : 
-                                       op === '*' ? '#1976d2' : '#c2185b'
-                              }}>
-                                <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{op}</Box>
+                        <InputLabel>Choose Operation</InputLabel>
+                        <Select
+                          value={(node.operators || [node.operator] || ['+'])[i] || '+'}
+                          onChange={(e) => {
+                            const newOperators = [...(node.operators || [node.operator] || ['+'])];
+                            newOperators[i] = e.target.value;
+                            onChange({ 
+                              ...node, 
+                              operators: newOperators,
+                              operator: undefined // Remove old single operator property
+                            });
+                          }}
+                          MenuProps={{
+                            classes: { paper: classes.enhancedDropdown },
+                            PaperProps: {
+                              style: {
+                                borderRadius: '16px',
+                                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+                                border: '1px solid #e2e8f0',
+                                marginTop: '8px',
+                              },
+                            },
+                          }}
+                        >
+                          {_OperatorList.map((op) => (
+                            <MenuItem key={op} value={op}>
+                              <Box display="flex" alignItems="center" width="100%">
+                                <Box className={classes.dropdownIcon} sx={{ 
+                                  backgroundColor: op === '+' ? '#e8f5e8' : 
+                                                  op === '-' ? '#fff3e0' : 
+                                                  op === '*' ? '#e3f2fd' : '#fce4ec',
+                                  color: op === '+' ? '#2e7d32' : 
+                                         op === '-' ? '#f57c00' : 
+                                         op === '*' ? '#1976d2' : '#c2185b'
+                                }}>
+                                  <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{op}</Box>
+                                </Box>
+                                <Box>
+                                  <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
+                                    {op === '+' ? 'Addition' : op === '-' ? 'Subtraction' : op === '*' ? 'Multiplication' : 'Division'}
+                                  </Typography>
+                                  <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
+                                    {op === '+' ? 'Add values together' : 
+                                     op === '-' ? 'Subtract second from first' : 
+                                     op === '*' ? 'Multiply values' : 'Divide first by second'}
+                                  </Typography>
+                                </Box>
                               </Box>
-                              <Box>
-                                <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
-                                  {op === '+' ? 'Addition' : op === '-' ? 'Subtraction' : op === '*' ? 'Multiplication' : 'Division'}
-                                </Typography>
-                                <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-                                  {op === '+' ? 'Add values together' : 
-                                   op === '-' ? 'Subtract second from first' : 
-                                   op === '*' ? 'Multiply values' : 'Divide first by second'}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Box>
                   </Box>
                 )}
               </Box>
