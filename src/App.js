@@ -40,7 +40,7 @@ const _cellValueList = [
   'A1', 'B1', 'C1', 'D1', 'OT1.1', 'STRUC_HRS'
 ];
 const _OperatorList = ['+', '-', '*', '/'];
-const _ConditionList = ['==', '>=', '<=', '<>'];
+const _ConditionList = ['=', '<', '>', '<>'];
 const _FunctionList = ['cellValue', 'number', 'textbox', 'operator', 'if', 'lookup'];
 
 const useStyles = makeStyles((theme) => ({
@@ -111,6 +111,95 @@ const Collapsible = ({ label, children }) => {
   );
 };
 
+// Component for IF condition operands with type selection
+const ConditionOperand = ({ node, onChange, label }) => {
+  const classes = useStyles();
+  
+  const changeType = (e) => {
+    const type = e.target.value;
+    switch (type) {
+      case 'cellValue':
+        onChange({ type: 'cellValue', value: _cellValueList[0] });
+        break;
+      case 'number':
+        onChange({ type: 'number', value: 0 });
+        break;
+      case 'textbox':
+        onChange({ type: 'textbox', value: '' });
+        break;
+      default:
+        break;
+    }
+  };
+
+  return (
+    <div>
+      <FormControl size="small" style={{ minWidth: 120, marginBottom: '8px' }}>
+        <InputLabel>Type</InputLabel>
+        <Select
+          value={node.type}
+          onChange={changeType}
+        >
+          <MenuItem value="cellValue">cellValue</MenuItem>
+          <MenuItem value="number">number</MenuItem>
+          <MenuItem value="textbox">textbox</MenuItem>
+        </Select>
+      </FormControl>
+      
+      {node.type === 'cellValue' && (
+        <Autocomplete
+          value={node.value}
+          onChange={(event, newValue) => {
+            onChange({ ...node, value: newValue || '' });
+          }}
+          onInputChange={(event, newInputValue) => {
+            onChange({ ...node, value: newInputValue });
+          }}
+          options={_cellValueList}
+          freeSolo
+          selectOnFocus
+          clearOnBlur
+          handleHomeEndKeys
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Cell Value"
+              placeholder="Select or type cell reference"
+              size="small"
+              fullWidth
+              variant="outlined"
+            />
+          )}
+        />
+      )}
+      
+      {node.type === 'number' && (
+        <TextField
+          fullWidth
+          size="small"
+          label="Enter Number"
+          type="number"
+          value={node.value}
+          onChange={(e) => onChange({ ...node, value: Number(e.target.value) })}
+          placeholder="Enter a number"
+        />
+      )}
+      
+      {node.type === 'textbox' && (
+        <TextField
+          fullWidth
+          size="small"
+          label="Enter Text"
+          type="text"
+          value={node.value}
+          onChange={(e) => onChange({ ...node, value: e.target.value })}
+          placeholder="Enter text value"
+        />
+      )}
+    </div>
+  );
+};
+
 const FormulaNode = ({ node, onChange }) => {
   const classes = useStyles();
   
@@ -141,7 +230,7 @@ const FormulaNode = ({ node, onChange }) => {
         onChange({
           type: 'if',
           condition: {
-            operator: '==',
+            operator: '=',
             left: { type: 'cellValue', value: _cellValueList[0] },
             right: { type: 'number', value: 0 },
           },
@@ -424,7 +513,7 @@ const FormulaNode = ({ node, onChange }) => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '8px', alignItems: 'end', marginBottom: '15px' }}>
               <div>
                 <label className="form-label">Left Side:</label>
-                <FormulaNode
+                <ConditionOperand
                   node={node.condition.left}
                   onChange={(val) =>
                     onChange({
@@ -436,27 +525,28 @@ const FormulaNode = ({ node, onChange }) => {
               </div>
               <div>
                 <label className="form-label">Comparison:</label>
-                <select
-                  value={node.condition.operator}
-                  onChange={(e) =>
-                    onChange({
-                      ...node,
-                      condition: { ...node.condition, operator: e.target.value },
-                    })
-                  }
-                  className="form-control"
-                  style={{ minWidth: '70px' }}
-                >
-                  {_ConditionList.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
+                <FormControl size="small" style={{ minWidth: '70px' }}>
+                  <InputLabel>Op</InputLabel>
+                  <Select
+                    value={node.condition.operator}
+                    onChange={(e) =>
+                      onChange({
+                        ...node,
+                        condition: { ...node.condition, operator: e.target.value },
+                      })
+                    }
+                  >
+                    {_ConditionList.map((c) => (
+                      <MenuItem key={c} value={c}>
+                        {c}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
               <div>
                 <label className="form-label">Right Side:</label>
-                <FormulaNode
+                <ConditionOperand
                   node={node.condition.right}
                   onChange={(val) =>
                     onChange({
@@ -812,7 +902,7 @@ const parseIfFunction = (expr) => {
 };
 
 const parseCondition = (conditionStr) => {
-  const conditionOps = ['>=', '<=', '<>', '==', '>', '<', '='];
+  const conditionOps = ['<>', '>=', '<=', '==', '>', '<', '='];
   
   for (const op of conditionOps) {
     let index = -1;
@@ -845,8 +935,14 @@ const parseCondition = (conditionStr) => {
       const left = conditionStr.substring(0, index).trim();
       const right = conditionStr.substring(index + op.length).trim();
       
+      // Map '==' to '=' for our UI, keep other operators as-is
+      let normalizedOp = op;
+      if (op === '==') {
+        normalizedOp = '=';
+      }
+      
       return {
-        operator: op === '=' ? '==' : op,
+        operator: normalizedOp,
         left: parseExpression(left),
         right: parseExpression(right)
       };
@@ -855,7 +951,7 @@ const parseCondition = (conditionStr) => {
   
   // Default condition if no operator found
   return {
-    operator: '==',
+    operator: '=',
     left: parseExpression(conditionStr),
     right: { type: 'number', value: 0 }
   };
