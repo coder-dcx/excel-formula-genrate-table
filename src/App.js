@@ -173,9 +173,11 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     backgroundColor: 'white',
-    borderRadius: theme.spacing(1),
+    borderRadius: '12px',
     padding: theme.spacing(3),
     margin: theme.spacing(1, 0),
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
   },
   header: {
     textAlign: 'center',
@@ -187,11 +189,69 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   nodeContainer: {
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(1.5),
+    border: '2px solid #e3f2fd',
+    borderRadius: '12px',
+    backgroundColor: '#fafafa',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      borderColor: '#2196f3',
+      boxShadow: '0 4px 20px rgba(33, 150, 243, 0.15)',
+      backgroundColor: '#fff',
+      transform: 'translateY(-2px)',
+    },
+  },
+  compactRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1.5),
     padding: theme.spacing(1.5),
-    marginBottom: theme.spacing(1),
-    border: `2px solid ${theme.palette.divider}`,
-    borderRadius: theme.spacing(1),
-    backgroundColor: 'white',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    border: '1px solid #e0e0e0',
+    transition: 'all 0.2s ease-in-out',
+    '&:hover': {
+      borderColor: '#2196f3',
+      boxShadow: '0 2px 8px rgba(33, 150, 243, 0.1)',
+    },
+  },
+  typeSelector: {
+    minWidth: 100,
+    maxWidth: 100,
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '8px',
+    },
+    '& .MuiSelect-root': {
+      fontSize: '0.875rem',
+      fontWeight: 500,
+    },
+  },
+  inputField: {
+    flex: 1,
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '8px',
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#2196f3',
+      },
+    },
+    '& .MuiInputLabel-root': {
+      fontSize: '0.875rem',
+      fontWeight: 500,
+    },
+  },
+  resetButton: {
+    minWidth: 40,
+    height: 40,
+    borderRadius: '8px',
+    backgroundColor: '#f5f5f5',
+    border: '1px solid #e0e0e0',
+    transition: 'all 0.2s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#e3f2fd',
+      borderColor: '#2196f3',
+      color: '#2196f3',
+    },
   },
   operatorChip: {
     margin: theme.spacing(0.5),
@@ -200,15 +260,92 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   codeBlock: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8f9fa',
     padding: theme.spacing(2),
-    borderRadius: theme.spacing(1),
-    fontFamily: 'Courier New, monospace',
-    fontSize: '12px',
+    borderRadius: '8px',
+    fontFamily: 'JetBrains Mono, Consolas, Monaco, monospace',
+    fontSize: '13px',
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
     maxHeight: 300,
     overflow: 'auto',
+    border: '1px solid #e0e0e0',
+  },
+  sectionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    padding: theme.spacing(1.5, 2),
+    backgroundColor: '#f8f9fa',
+    borderRadius: '8px',
+    border: '1px solid #e0e0e0',
+    marginBottom: theme.spacing(1),
+    fontWeight: 600,
+    fontSize: '0.875rem',
+    color: '#1976d2',
+  },
+  collapsibleHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: theme.spacing(1.5, 2),
+    backgroundColor: 'linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%)',
+    borderRadius: '8px',
+    border: '1px solid #e0e0e0',
+    '&:hover': {
+      backgroundColor: 'linear-gradient(135deg, #bbdefb 0%, #e1bee7 100%)',
+    },
+  },
+  helpText: {
+    fontSize: '0.75rem',
+    color: '#666',
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(1),
+    backgroundColor: '#f8f9fa',
+    borderRadius: '6px',
+    border: '1px solid #e0e0e0',
+    lineHeight: 1.4,
+  },
+  conditionGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+    gap: theme.spacing(2),
+    alignItems: 'end',
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    backgroundColor: '#f8f9fa',
+    borderRadius: '8px',
+    border: '1px solid #e0e0e0',
+  },
+  previewCard: {
+    marginTop: theme.spacing(2),
+    borderRadius: '12px',
+    background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+    border: '1px solid #e0e7ff',
+    '&:hover': {
+      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+      transform: 'translateY(-2px)',
+    },
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+  previewHeader: {
+    backgroundColor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    borderRadius: '12px 12px 0 0',
+    '& .MuiCardHeader-title': {
+      fontSize: '1.1rem',
+      fontWeight: 600,
+    },
+  },
+  previewContent: {
+    backgroundColor: 'white',
+    borderRadius: '0 0 12px 12px',
+    '& pre': {
+      margin: 0,
+      fontSize: '0.85rem',
+      lineHeight: 1.5,
+    },
   },
 }));
 
@@ -231,7 +368,7 @@ const Collapsible = ({ label, children }) => {
   );
 };
 
-// Component for IF condition operands with type selection
+// Component for IF condition operands with type selection - Professional Design
 const ConditionOperand = ({ node, onChange, label }) => {
   const classes = useStyles();
   
@@ -252,54 +389,124 @@ const ConditionOperand = ({ node, onChange, label }) => {
     }
   };
 
+  const resetValue = () => {
+    switch (node.type) {
+      case 'cellValue':
+        onChange({ type: 'cellValue', value: _cellValueList[0] });
+        break;
+      case 'number':
+        onChange({ type: 'number', value: 0 });
+        break;
+      case 'textbox':
+        onChange({ type: 'textbox', value: '' });
+        break;
+    }
+  };
+
   return (
-    <div>
-      <FormControl size="small" style={{ minWidth: 120, marginBottom: '8px' }}>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      gap={1.5} 
+      width="100%"
+      sx={{
+        padding: 1.5,
+        borderRadius: '8px',
+        backgroundColor: '#fff',
+        border: '1px solid #e0e0e0',
+        '&:hover': {
+          borderColor: '#2196f3',
+          boxShadow: '0 2px 8px rgba(33, 150, 243, 0.1)',
+        },
+      }}
+    >
+      {/* Type Selector */}
+      <FormControl size="small" variant="outlined" sx={{ minWidth: 80, maxWidth: 80 }}>
         <InputLabel>Type</InputLabel>
         <Select
           value={node.type}
           onChange={changeType}
+          label="Type"
         >
-          <MenuItem value="cellValue">cellValue</MenuItem>
-          <MenuItem value="number">number</MenuItem>
-          <MenuItem value="textbox">textbox</MenuItem>
+          <MenuItem value="cellValue">
+            <Box display="flex" alignItems="center" gap={0.5}>
+              📊 <span>Cell</span>
+            </Box>
+          </MenuItem>
+          <MenuItem value="number">
+            <Box display="flex" alignItems="center" gap={0.5}>
+              🔢 <span>Num</span>
+            </Box>
+          </MenuItem>
+          <MenuItem value="textbox">
+            <Box display="flex" alignItems="center" gap={0.5}>
+              📝 <span>Text</span>
+            </Box>
+          </MenuItem>
         </Select>
       </FormControl>
       
-      {node.type === 'cellValue' && (
-        <EnhancedCellValueAutocomplete
-          value={node.value}
-          onChange={(newValue) => onChange({ ...node, value: newValue })}
-          label="Cell Value"
-          placeholder="Select or type cell reference"
-          showChips={false}
-        />
-      )}
+      {/* Value Input - Flexible width */}
+      <Box flex={1}>
+        {node.type === 'cellValue' && (
+          <EnhancedCellValueAutocomplete
+            value={node.value}
+            onChange={(newValue) => onChange({ ...node, value: newValue })}
+            label="Cell Ref"
+            placeholder="e.g., A1, [99999]"
+            showChips={false}
+          />
+        )}
+        
+        {node.type === 'number' && (
+          <TextField
+            fullWidth
+            size="small"
+            label="Number"
+            type="number"
+            variant="outlined"
+            value={node.value}
+            onChange={(e) => onChange({ ...node, value: Number(e.target.value) })}
+            placeholder="0"
+            inputProps={{ step: 'any' }}
+          />
+        )}
+        
+        {node.type === 'textbox' && (
+          <TextField
+            fullWidth
+            size="small"
+            label="Text"
+            type="text"
+            variant="outlined"
+            value={node.value}
+            onChange={(e) => onChange({ ...node, value: e.target.value })}
+            placeholder="Enter text"
+          />
+        )}
+      </Box>
       
-      {node.type === 'number' && (
-        <TextField
-          fullWidth
-          size="small"
-          label="Enter Number"
-          type="number"
-          value={node.value}
-          onChange={(e) => onChange({ ...node, value: Number(e.target.value) })}
-          placeholder="Enter a number"
-        />
-      )}
-      
-      {node.type === 'textbox' && (
-        <TextField
-          fullWidth
-          size="small"
-          label="Enter Text"
-          type="text"
-          value={node.value}
-          onChange={(e) => onChange({ ...node, value: e.target.value })}
-          placeholder="Enter text value"
-        />
-      )}
-    </div>
+      {/* Reset Button */}
+      <IconButton
+        size="small"
+        onClick={resetValue}
+        title="Reset value"
+        sx={{
+          minWidth: 36,
+          height: 36,
+          borderRadius: '6px',
+          backgroundColor: '#f5f5f5',
+          border: '1px solid #e0e0e0',
+          '&:hover': {
+            backgroundColor: '#e3f2fd',
+            borderColor: '#2196f3',
+            color: '#2196f3',
+          },
+        }}
+      >
+        <RefreshIcon fontSize="small" />
+      </IconButton>
+    </Box>
   );
 };
 
@@ -357,87 +564,241 @@ const FormulaNode = ({ node, onChange }) => {
     }
   };
 
-  const resetNode = () => changeType({ target: { value: selectedType } });
+  const renderCompactTypeControl = (node, onChange, selectedType) => {
+    const resetNode = () => {
+      switch (selectedType) {
+        case 'cellValue':
+          onChange({ type: 'cellValue', value: _cellValueList[0] });
+          break;
+        case 'number':
+          onChange({ type: 'number', value: 0 });
+          break;
+        case 'textbox':
+          onChange({ type: 'textbox', value: '' });
+          break;
+        default:
+          changeType({ target: { value: selectedType } });
+          break;
+      }
+    };
 
-  const renderTypeControl = () => (
-    <Box display="flex" alignItems="center" gap={1} mb={1}>
-      <FormControl size="small" style={{ minWidth: 120 }}>
-        <InputLabel>Type</InputLabel>
-        <Select
-          value={selectedType}
-          onChange={changeType}
-          onClick={(e) => e.stopPropagation()}
+    return (
+      <Box display="flex" alignItems="center" gap={1} mb={1}>
+        <FormControl size="small" style={{ minWidth: 120 }}>
+          <InputLabel>Type</InputLabel>
+          <Select
+            value={selectedType}
+            onChange={changeType}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {_FunctionList.map((f) => (
+              <MenuItem key={f} value={f}>
+                {f}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<RefreshIcon />}
+          onClick={(e) => {
+            e.stopPropagation();
+            resetNode();
+          }}
         >
-          {_FunctionList.map((f) => (
-            <MenuItem key={f} value={f}>
-              {f}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Button
-        size="small"
-        variant="outlined"
-        startIcon={<RefreshIcon />}
-        onClick={(e) => {
-          e.stopPropagation();
-          resetNode();
-        }}
-      >
-        Reset
-      </Button>
-    </Box>
-  );
+          Reset
+        </Button>
+      </Box>
+    );
+  };
+
+  const renderTypeControl = () => renderCompactTypeControl(node, onChange, selectedType);
 
   switch (node.type) {
     case 'cellValue':
       return (
-        <Paper className={classes.nodeContainer}>
-          {renderTypeControl()}
-          <EnhancedCellValueAutocomplete
-            value={node.value}
-            onChange={(newValue) => onChange({ ...node, value: newValue })}
-            label="Cell Value"
-            placeholder="Select or type cell reference (e.g., [99999], A1, OT1.1)"
-            showChips={true}
-          />
-          <Typography variant="caption" style={{ color: '#666', marginTop: '4px', display: 'block' }}>
-            💡 <strong>Smart autocomplete:</strong> Type to search existing values or create new ones. 
-            New values marked as "(new)" can be added by clicking or pressing Enter. 
-            Bracket refs like [99999] and Excel refs like A1 are auto-detected.
+        <Paper className={classes.nodeContainer} elevation={0}>
+          <Box className={classes.compactRow}>
+            {/* Type Selector */}
+            <FormControl className={classes.typeSelector} size="small" variant="outlined">
+              <InputLabel>Type</InputLabel>
+              <Select
+                value={selectedType}
+                onChange={changeType}
+                onClick={(e) => e.stopPropagation()}
+                label="Type"
+              >
+                {_FunctionList.map((f) => (
+                  <MenuItem key={f} value={f}>
+                    <Box display="flex" alignItems="center" gap={0.5}>
+                      {f === 'cellValue' && '📊'}
+                      {f === 'number' && '🔢'}
+                      {f === 'textbox' && '📝'}
+                      {f === 'operator' && '⚡'}
+                      {f === 'if' && '🔀'}
+                      {f === 'lookup' && '🔍'}
+                      <span style={{ marginLeft: 4 }}>
+                        {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Number' : f}
+                      </span>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            
+            {/* Cell Value Input - Flexible width */}
+            <Box className={classes.inputField}>
+              <EnhancedCellValueAutocomplete
+                value={node.value}
+                onChange={(newValue) => onChange({ ...node, value: newValue })}
+                label="Cell Reference"
+                placeholder="e.g., A1, [99999], OT1.1"
+                showChips={true}
+              />
+            </Box>
+            
+            {/* Reset Button */}
+            <IconButton
+              className={classes.resetButton}
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                onChange({ type: 'cellValue', value: _cellValueList[0] });
+              }}
+              title="Reset to default cell value"
+            >
+              <RefreshIcon fontSize="small" />
+            </IconButton>
+          </Box>
+          
+          <Typography className={classes.helpText}>
+            💡 <strong>Smart Reference:</strong> Type to filter existing values or create new ones. 
+            Supports Excel refs (A1), bracket refs ([99999]), and custom identifiers.
           </Typography>
         </Paper>
       );
 
     case 'number':
       return (
-        <Paper className={classes.nodeContainer}>
-          {renderTypeControl()}
-          <TextField
-            fullWidth
-            size="small"
-            label="Enter Number"
-            type="number"
-            value={node.value}
-            onChange={(e) => onChange({ ...node, value: Number(e.target.value) })}
-            placeholder="Enter a number"
-          />
+        <Paper className={classes.nodeContainer} elevation={0}>
+          <Box className={classes.compactRow}>
+            {/* Type Selector */}
+            <FormControl className={classes.typeSelector} size="small" variant="outlined">
+              <InputLabel>Type</InputLabel>
+              <Select
+                value={selectedType}
+                onChange={changeType}
+                onClick={(e) => e.stopPropagation()}
+                label="Type"
+              >
+                {_FunctionList.map((f) => (
+                  <MenuItem key={f} value={f}>
+                    <Box display="flex" alignItems="center" gap={0.5}>
+                      {f === 'cellValue' && '📊'}
+                      {f === 'number' && '🔢'}
+                      {f === 'textbox' && '📝'}
+                      {f === 'operator' && '⚡'}
+                      {f === 'if' && '🔀'}
+                      {f === 'lookup' && '🔍'}
+                      <span style={{ marginLeft: 4 }}>
+                        {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Number' : f}
+                      </span>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            
+            {/* Number Input - Flexible width */}
+            <Box className={classes.inputField}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Number Value"
+                type="number"
+                variant="outlined"
+                value={node.value}
+                onChange={(e) => onChange({ ...node, value: Number(e.target.value) })}
+                placeholder="Enter a number"
+                inputProps={{ step: 'any' }}
+              />
+            </Box>
+            
+            {/* Reset Button */}
+            <IconButton
+              className={classes.resetButton}
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                onChange({ type: 'number', value: 0 });
+              }}
+              title="Reset to 0"
+            >
+              <RefreshIcon fontSize="small" />
+            </IconButton>
+          </Box>
         </Paper>
       );
 
     case 'textbox':
       return (
-        <Paper className={classes.nodeContainer}>
-          {renderTypeControl()}
-          <TextField
-            fullWidth
-            size="small"
-            label="Enter Text"
-            type="text"
-            value={node.value}
-            onChange={(e) => onChange({ ...node, value: e.target.value })}
-            placeholder="Enter text value"
-          />
+        <Paper className={classes.nodeContainer} elevation={0}>
+          <Box className={classes.compactRow}>
+            {/* Type Selector */}
+            <FormControl className={classes.typeSelector} size="small" variant="outlined">
+              <InputLabel>Type</InputLabel>
+              <Select
+                value={selectedType}
+                onChange={changeType}
+                onClick={(e) => e.stopPropagation()}
+                label="Type"
+              >
+                {_FunctionList.map((f) => (
+                  <MenuItem key={f} value={f}>
+                    <Box display="flex" alignItems="center" gap={0.5}>
+                      {f === 'cellValue' && '📊'}
+                      {f === 'number' && '🔢'}
+                      {f === 'textbox' && '📝'}
+                      {f === 'operator' && '⚡'}
+                      {f === 'if' && '🔀'}
+                      {f === 'lookup' && '🔍'}
+                      <span style={{ marginLeft: 4 }}>
+                        {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Number' : f}
+                      </span>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            
+            {/* Text Input - Flexible width */}
+            <Box className={classes.inputField}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Text Value"
+                type="text"
+                variant="outlined"
+                value={node.value}
+                onChange={(e) => onChange({ ...node, value: e.target.value })}
+                placeholder="Enter text value"
+              />
+            </Box>
+            
+            {/* Reset Button */}
+            <IconButton
+              className={classes.resetButton}
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                onChange({ type: 'textbox', value: '' });
+              }}
+              title="Clear text"
+            >
+              <RefreshIcon fontSize="small" />
+            </IconButton>
+          </Box>
         </Paper>
       );
 
@@ -445,13 +806,41 @@ const FormulaNode = ({ node, onChange }) => {
       return (
         <Collapsible
           label={
-            <Box display="flex" alignItems="center" onClick={(e) => e.stopPropagation()}>
-              {renderTypeControl()}
-              <Box display="flex" alignItems="center" ml={1}>
+            <Box display="flex" alignItems="center" onClick={(e) => e.stopPropagation()} width="100%">
+              <Box display="flex" alignItems="center" gap={1}>
+                <FormControl size="small" style={{ minWidth: 100 }}>
+                  <InputLabel>Type</InputLabel>
+                  <Select
+                    value={selectedType}
+                    onChange={changeType}
+                  >
+                    {_FunctionList.map((f) => (
+                      <MenuItem key={f} value={f}>
+                        {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Num' : f}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <FunctionsIcon color="primary" />
-                <Typography variant="body2" color="primary" style={{ fontWeight: 'bold', marginLeft: 8 }}>
+                <Typography variant="body2" color="primary" style={{ fontWeight: 'bold' }}>
                   Operator: {node.operators ? node.operators.join(' ') : node.operator || '+'}
                 </Typography>
+              </Box>
+              <Box ml="auto">
+                <IconButton
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onChange({
+                      type: 'operator',
+                      operators: ['+'],
+                      args: [{ type: 'number', value: 0 }, { type: 'number', value: 0 }],
+                    });
+                  }}
+                  title="Reset operator"
+                >
+                  <RefreshIcon fontSize="small" />
+                </IconButton>
               </Box>
             </Box>
           }
@@ -552,19 +941,58 @@ const FormulaNode = ({ node, onChange }) => {
       return (
         <Collapsible
           label={
-            <div onClick={(e) => e.stopPropagation()}>
-              {renderTypeControl()} 
-              <span style={{ marginLeft: '10px', color: '#0066cc', fontWeight: 'bold' }}>
-                🔀 IF Condition
-              </span>
-            </div>
+            <Box display="flex" alignItems="center" onClick={(e) => e.stopPropagation()} width="100%">
+              <Box display="flex" alignItems="center" gap={1}>
+                <FormControl size="small" style={{ minWidth: 100 }}>
+                  <InputLabel>Type</InputLabel>
+                  <Select
+                    value={selectedType}
+                    onChange={changeType}
+                  >
+                    {_FunctionList.map((f) => (
+                      <MenuItem key={f} value={f}>
+                        {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Num' : f}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <Typography variant="body2" style={{ color: '#0066cc', fontWeight: 'bold' }}>
+                  🔀 IF Condition
+                </Typography>
+              </Box>
+              <Box ml="auto">
+                <IconButton
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onChange({
+                      type: 'if',
+                      condition: {
+                        operator: '=',
+                        left: { type: 'cellValue', value: _cellValueList[0] },
+                        right: { type: 'number', value: 0 },
+                      },
+                      trueValue: { type: 'number', value: 0 },
+                      falseValue: { type: 'number', value: 0 },
+                    });
+                  }}
+                  title="Reset IF condition"
+                >
+                  <RefreshIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            </Box>
           }
         >
-          <div className="form-group">
-            <h4 style={{ color: '#0066cc', marginBottom: '10px', fontSize: '14px' }}>🔍 Condition:</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '8px', alignItems: 'end', marginBottom: '15px' }}>
-              <div>
-                <label className="form-label">Left Side:</label>
+          <Box>
+            <Typography variant="h6" className={classes.sectionHeader}>
+              🔍 Condition Setup
+            </Typography>
+            <Box className={classes.conditionGrid}>
+              <Box>
+                <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#1976d2' }}>
+                  Left Side
+                </Typography>
                 <ConditionOperand
                   node={node.condition.left}
                   onChange={(val) =>
@@ -574,10 +1002,12 @@ const FormulaNode = ({ node, onChange }) => {
                     })
                   }
                 />
-              </div>
-              <div>
-                <label className="form-label">Comparison:</label>
-                <FormControl size="small" style={{ minWidth: '70px' }}>
+              </Box>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#1976d2' }}>
+                  Operator
+                </Typography>
+                <FormControl size="small" variant="outlined" sx={{ minWidth: 80 }}>
                   <InputLabel>Op</InputLabel>
                   <Select
                     value={node.condition.operator}
@@ -587,17 +1017,25 @@ const FormulaNode = ({ node, onChange }) => {
                         condition: { ...node.condition, operator: e.target.value },
                       })
                     }
+                    label="Op"
                   >
                     {_ConditionList.map((c) => (
                       <MenuItem key={c} value={c}>
-                        {c}
+                        <Box display="flex" alignItems="center" gap={0.5}>
+                          <span style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>{c}</span>
+                          <span style={{ fontSize: '0.75rem', color: '#666' }}>
+                            {c === '=' ? 'equals' : c === '<' ? 'less' : c === '>' ? 'greater' : 'not equal'}
+                          </span>
+                        </Box>
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
-              </div>
-              <div>
-                <label className="form-label">Right Side:</label>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#1976d2' }}>
+                  Right Side
+                </Typography>
                 <ConditionOperand
                   node={node.condition.right}
                   onChange={(val) =>
@@ -607,9 +1045,9 @@ const FormulaNode = ({ node, onChange }) => {
                     })
                   }
                 />
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
 
           <div className="form-group">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -660,12 +1098,46 @@ const FormulaNode = ({ node, onChange }) => {
         return (
           <Collapsible
             label={
-              <div onClick={(e) => e.stopPropagation()}>
-                {renderTypeControl()} 
-                <span style={{ marginLeft: '10px', color: '#0066cc', fontWeight: 'bold' }}>
-                  🔍 Function: LOOKUP
-                </span>
-              </div>
+              <Box display="flex" alignItems="center" onClick={(e) => e.stopPropagation()} width="100%">
+                <Box display="flex" alignItems="center" gap={1}>
+                  <FormControl size="small" style={{ minWidth: 100 }}>
+                    <InputLabel>Type</InputLabel>
+                    <Select
+                      value={selectedType}
+                      onChange={changeType}
+                    >
+                      {_FunctionList.map((f) => (
+                        <MenuItem key={f} value={f}>
+                          {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Num' : f}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Typography variant="body2" style={{ color: '#0066cc', fontWeight: 'bold' }}>
+                    🔍 Function: LOOKUP
+                  </Typography>
+                </Box>
+                <Box ml="auto">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onChange({
+                        type: 'function',
+                        name: 'lookup',
+                        args: [
+                          { type: 'cellValue', value: _cellValueList[0] },
+                          { type: 'cellValue', value: 'STRUC_HRS' },
+                          { type: 'cellValue', value: _cellValueList[1] },
+                        ],
+                      });
+                    }}
+                    title="Reset LOOKUP function"
+                  >
+                    <RefreshIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </Box>
             }
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
@@ -1073,6 +1545,8 @@ const splitFunctionArgs = (content) => {
 };
 
 const FormulaBuilder = () => {
+  const classes = useStyles();
+  
   const [formulas, setFormulas] = useState([
     {
       type: 'operator',
@@ -1144,65 +1618,144 @@ const FormulaBuilder = () => {
   };
 
   return (
-    <div className="App">
-      <div className="formula-builder-container">
-        <div className="header">
-          <h1>🧮 Excel Formula Builder</h1>
-          <p>
+    <Box className={classes.root}>
+      <Paper className={classes.container} elevation={8}>
+        <Box className={classes.header}>
+          <Typography variant="h3" component="h1" sx={{ 
+            background: 'linear-gradient(45deg, #2196f3, #21cbf3)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 700,
+            mb: 2
+          }}>
+            🧮 Excel Formula Builder
+          </Typography>
+          <Typography variant="h6" sx={{ 
+            color: '#666', 
+            fontWeight: 400,
+            lineHeight: 1.6,
+            maxWidth: 600,
+            mx: 'auto'
+          }}>
             Build complex Excel formulas visually using our intuitive interface. 
             Create nested formulas, add conditions, and see real-time previews of your work.
-          </p>
-        </div>
+          </Typography>
+        </Box>
 
-        <Box mb={3}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h5" style={{ color: '#0066cc', fontWeight: 'bold' }}>
-              📝 Formula Sections
+        <Box mb={4}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+            <Typography variant="h5" sx={{ 
+              color: '#1976d2', 
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1
+            }}>
+              📝 Formula Workspace
             </Typography>
             <Button 
               onClick={addFormula} 
               variant="contained" 
-              color="secondary"
+              size="large"
               startIcon={<AddIcon />}
+              sx={{
+                borderRadius: '12px',
+                textTransform: 'none',
+                fontWeight: 600,
+                px: 3,
+                py: 1.5,
+                background: 'linear-gradient(45deg, #2196f3, #21cbf3)',
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #1976d2, #039be5)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(33, 150, 243, 0.3)',
+                },
+              }}
             >
               Add New Formula
             </Button>
           </Box>
 
           {/* Import/Decode Section */}
-          <Card style={{ marginBottom: '20px', border: '2px solid #0066cc' }}>
+          <Card sx={{ 
+            mb: 3, 
+            borderRadius: '16px',
+            border: '2px solid #e3f2fd',
+            background: 'linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%)',
+            overflow: 'hidden'
+          }}>
             <CardHeader 
-              title="🔄 Import & Decode Excel Formula"
-              style={{ background: '#e7f3ff', color: '#0066cc' }}
+              title={
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Box sx={{ 
+                    background: 'linear-gradient(45deg, #2196f3, #21cbf3)',
+                    borderRadius: '8px',
+                    p: 1,
+                    display: 'flex'
+                  }}>
+                    🔄
+                  </Box>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1976d2' }}>
+                    Import & Decode Excel Formula
+                  </Typography>
+                </Box>
+              }
+              sx={{ 
+                background: 'linear-gradient(135deg, #bbdefb 0%, #e1bee7 100%)',
+                '& .MuiCardHeader-title': { color: '#1976d2' }
+              }}
             />
-            <CardContent>
-              <Box display="flex" gap={1} mb={2} flexWrap="wrap">
+            <CardContent sx={{ p: 3 }}>
+              <Box display="flex" gap={2} mb={2} flexWrap="wrap">
                 <TextField
                   value={importFormula}
                   onChange={(e) => {
                     setImportFormula(e.target.value);
-                    setParseError(''); // Clear error when user types
+                    setParseError('');
                   }}
                   placeholder="Paste your Excel formula here (e.g., =IF(A1>5,B1+C1,D1*2))"
                   variant="outlined"
-                  size="small"
-                  style={{ flex: '1', minWidth: '300px' }}
+                  size="medium"
+                  fullWidth
+                  sx={{
+                    flex: 1,
+                    minWidth: 300,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      backgroundColor: 'white',
+                    }
+                  }}
                 />
                 <Button 
                   onClick={handleImportFormula} 
                   variant="contained"
-                  color="primary"
                   startIcon={<AddIcon />}
                   disabled={!importFormula.trim()}
+                  sx={{
+                    borderRadius: '12px',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    px: 3,
+                  }}
                 >
                   Add Formula
                 </Button>
                 <Button 
                   onClick={handleParseAndReplace} 
                   variant="contained"
-                  style={{ backgroundColor: '#ff9800', color: 'white' }}
                   startIcon={<ImportExportIcon />}
                   disabled={!importFormula.trim()}
+                  sx={{
+                    borderRadius: '12px',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    px: 3,
+                    background: 'linear-gradient(45deg, #ff9800, #ffb74d)',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #f57c00, #ffa726)',
+                    }
+                  }}
                 >
                   Replace All
                 </Button>
@@ -1227,45 +1780,83 @@ const FormulaBuilder = () => {
           </Card>
 
           {formulas.map((f, i) => (
-            <div key={i} className="formula-section">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <h3 style={{ color: '#0066cc', margin: 0, fontSize: '1.1rem' }}>Formula {i + 1}</h3>
+            <Box key={i} className={classes.formulaSection}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: 2,
+                padding: 2,
+                backgroundColor: '#f8f9fa',
+                borderRadius: 2,
+                border: '1px solid #e0e0e0'
+              }}>
+                <Typography variant="h6" sx={{ color: '#0066cc', margin: 0, fontSize: '1.1rem', fontWeight: 600 }}>
+                  Formula {i + 1}
+                </Typography>
                 {formulas.length > 1 && (
-                  <button 
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="small"
                     onClick={() => removeFormula(i)} 
-                    className="btn btn-danger btn-small"
+                    startIcon={<DeleteIcon />}
+                    sx={{
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      '&:hover': {
+                        backgroundColor: '#ffebee',
+                        borderColor: '#f44336',
+                      }
+                    }}
                   >
-                    🗑️ Remove
-                  </button>
+                    Remove
+                  </Button>
                 )}
-              </div>
+              </Box>
               <FormulaNode node={f} onChange={(val) => updateFormulaAtIndex(i, val)} />
-            </div>
+            </Box>
           ))}
         </Box>
 
-        <div className="preview-section">
-          <div className="preview-header">
-            📊 JSON Preview
-          </div>
-          <div className="preview-content">
-            <code>{JSON.stringify(formulas, null, 2)}</code>
-          </div>
-        </div>
+        <Card className={classes.previewCard} elevation={2}>
+          <CardHeader title="📊 JSON Preview" className={classes.previewHeader} />
+          <CardContent className={classes.previewContent}>
+            <Box component="pre" sx={{ 
+              fontFamily: 'Courier New, monospace',
+              fontSize: '0.9rem',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word'
+            }}>
+              {JSON.stringify(formulas, null, 2)}
+            </Box>
+          </CardContent>
+        </Card>
 
-        <div className="preview-section">
-          <div className="preview-header">
-            📋 Excel Formula Output
-          </div>
-          <div className="preview-content">
-            <code>= {formulas.map(generateExcelFormula).join(' + ')}</code>
-            <div style={{ marginTop: '10px', padding: '8px', background: '#e7f3ff', borderRadius: '6px', border: '1px solid #b3d9ff' }}>
-              <strong>💡 Tip:</strong> Copy the formula above and paste it directly into Excel!
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <Card className={classes.previewCard} elevation={2}>
+          <CardHeader title="📋 Excel Formula Output" className={classes.previewHeader} />
+          <CardContent className={classes.previewContent}>
+            <Box component="code" sx={{ 
+              fontFamily: 'Courier New, monospace',
+              fontSize: '1rem',
+              fontWeight: 600,
+              color: '#2e7d32'
+            }}>
+              = {formulas.map(generateExcelFormula).join(' + ')}
+            </Box>
+            <Box mt={2} p={2} sx={{ 
+              background: 'linear-gradient(135deg, #e3f2fd, #f3e5f5)',
+              borderRadius: 2,
+              border: '1px solid #bbdefb'
+            }}>
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                <strong>💡 Tip:</strong> Copy the formula above and paste it directly into Excel!
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Paper>
+    </Box>
   );
 };
 
