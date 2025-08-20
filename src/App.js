@@ -117,28 +117,68 @@ const EnhancedCellValueAutocomplete = ({ value, onChange, label = "Cell Value", 
           size="small"
           fullWidth
           variant="outlined"
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '12px',
+              backgroundColor: 'white',
+              border: '2px solid #e2e8f0',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': {
+                borderColor: '#667eea',
+                boxShadow: '0 2px 8px rgba(102, 126, 234, 0.1)',
+              },
+              '&.Mui-focused': {
+                borderColor: '#667eea',
+                boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.1)',
+              },
+            },
+            '& .MuiInputLabel-root': {
+              color: '#64748b',
+              fontWeight: 600,
+              '&.Mui-focused': {
+                color: '#667eea',
+              },
+            },
+          }}
         />
       )}
       renderOption={showChips ? (option) => (
-        <div className="cell-value-option" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+        <div className="cell-value-option" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '8px', 
+          padding: '12px 16px',
+          margin: '4px 8px',
+          borderRadius: '8px',
+          transition: 'all 0.2s ease-in-out',
+          ':hover': {
+            backgroundColor: '#f0f4ff',
+            transform: 'translateX(4px)',
+          }
+        }}>
           {option.includes(' (new)') && (
-            <Chip size="small" label="NEW" color="success" variant="outlined" />
+            <Chip size="small" label="NEW" color="success" variant="outlined" sx={{ fontWeight: 600 }} />
           )}
           {option.startsWith('[') && option.endsWith(']') && !option.includes(' (new)') && (
-            <Chip size="small" label="[ ]" color="primary" variant="outlined" />
+            <Chip size="small" label="[ ]" color="primary" variant="outlined" sx={{ fontWeight: 600 }} />
           )}
           {/^[A-Z]+[0-9]+$/i.test(option) && !option.includes(' (new)') && (
-            <Chip size="small" label="Excel" color="secondary" variant="outlined" />
+            <Chip size="small" label="Excel" color="secondary" variant="outlined" sx={{ fontWeight: 600 }} />
           )}
           {!/^[A-Z]+[0-9]+$/i.test(option) && !option.startsWith('[') && 
            !['cell value 1', 'cell value 2', 'cell value 3', 'cell value 4'].includes(option) && 
            !option.includes(' (new)') && !dynamicCellValues.includes(option) && (
-            <Chip size="small" label="Custom" color="default" variant="outlined" />
+            <Chip size="small" label="Custom" color="default" variant="outlined" sx={{ fontWeight: 600 }} />
           )}
           {dynamicCellValues.includes(option) && !option.includes(' (new)') && (
-            <Chip size="small" label="Added" color="info" variant="outlined" />
+            <Chip size="small" label="Added" color="info" variant="outlined" sx={{ fontWeight: 600 }} />
           )}
-          <Typography variant="body2" style={{ flex: 1 }}>
+          <Typography variant="body2" style={{ 
+            flex: 1, 
+            fontWeight: 500, 
+            fontSize: '0.95rem',
+            color: '#2c3e50' 
+          }}>
             {option.replace(' (new)', '')}
           </Typography>
         </div>
@@ -309,8 +349,44 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '12px',
       backgroundColor: 'white',
       border: '2px solid #e2e8f0',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       '&:hover': {
         borderColor: '#667eea',
+        boxShadow: '0 2px 8px rgba(102, 126, 234, 0.1)',
+      },
+      '&.Mui-focused': {
+        borderColor: '#667eea',
+        boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.1)',
+      },
+      '& input': {
+        fontWeight: 500,
+        fontSize: '0.95rem',
+      },
+    },
+    '& .MuiInputLabel-root': {
+      color: '#64748b',
+      fontWeight: 600,
+      fontSize: '0.9rem',
+      '&.Mui-focused': {
+        color: '#667eea',
+      },
+    },
+    '& .MuiAutocomplete-root': {
+      '& .MuiOutlinedInput-root': {
+        padding: '6px 12px',
+      },
+    },
+  },
+  typeSelector: {
+    minWidth: 140,
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '12px',
+      backgroundColor: 'white',
+      border: '2px solid #e2e8f0',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      '&:hover': {
+        borderColor: '#667eea',
+        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.15)',
       },
       '&.Mui-focused': {
         borderColor: '#667eea',
@@ -319,22 +395,111 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiInputLabel-root': {
       color: '#64748b',
-      fontWeight: 500,
-    },
-  },
-  typeSelector: {
-    minWidth: 120,
-    '& .MuiOutlinedInput-root': {
-      borderRadius: '12px',
-      backgroundColor: 'white',
-      border: '2px solid #e2e8f0',
-      '&:hover': {
-        borderColor: '#667eea',
+      fontWeight: 600,
+      fontSize: '0.9rem',
+      '&.Mui-focused': {
+        color: '#667eea',
       },
     },
     '& .MuiSelect-root': {
-      fontWeight: 500,
+      fontWeight: 600,
       color: '#2c3e50',
+      fontSize: '0.95rem',
+    },
+    '& .MuiSelect-icon': {
+      color: '#667eea',
+    },
+  },
+  enhancedDropdown: {
+    '& .MuiMenuItem-root': {
+      padding: theme.spacing(1.5, 2),
+      fontSize: '0.95rem',
+      fontWeight: 500,
+      borderRadius: '8px',
+      margin: theme.spacing(0.5, 1),
+      transition: 'all 0.2s ease-in-out',
+      '&:hover': {
+        backgroundColor: '#f0f4ff',
+        color: '#667eea',
+        transform: 'translateX(4px)',
+      },
+      '&.Mui-selected': {
+        backgroundColor: '#667eea',
+        color: 'white',
+        fontWeight: 600,
+        '&:hover': {
+          backgroundColor: '#5a6fd8',
+          transform: 'translateX(4px)',
+        },
+      },
+    },
+  },
+  dropdownIcon: {
+    minWidth: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '8px',
+    backgroundColor: '#f8fafc',
+    marginRight: theme.spacing(1),
+    fontSize: '1.2rem',
+  },
+  resetButton: {
+    minWidth: 40,
+    height: 40,
+    borderRadius: '8px',
+    backgroundColor: '#f8fafc',
+    border: '2px solid #e2e8f0',
+    color: '#64748b',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    '&:hover': {
+      backgroundColor: '#fee2e2',
+      borderColor: '#fca5a5',
+      color: '#dc2626',
+      transform: 'translateY(-1px)',
+      boxShadow: '0 4px 12px rgba(220, 38, 38, 0.15)',
+    },
+  },
+  helpText: {
+    fontSize: '0.85rem',
+    color: '#64748b',
+    lineHeight: 1.5,
+    marginTop: theme.spacing(1.5),
+    padding: theme.spacing(1.5),
+    backgroundColor: '#f8fafc',
+    borderRadius: '8px',
+    border: '1px solid #e2e8f0',
+    fontWeight: 500,
+  },
+  formulaSection: {
+    marginBottom: theme.spacing(3),
+    '& .MuiAccordion-root': {
+      borderRadius: '16px !important',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+      border: '2px solid #e2e8f0',
+      '&:before': {
+        display: 'none',
+      },
+      '&.Mui-expanded': {
+        margin: 0,
+        borderColor: '#667eea',
+        boxShadow: '0 8px 30px rgba(102, 126, 234, 0.15)',
+      },
+    },
+    '& .MuiAccordionSummary-root': {
+      backgroundColor: '#f8fafc',
+      borderRadius: '14px 14px 0 0',
+      padding: theme.spacing(2, 3),
+      '&.Mui-expanded': {
+        backgroundColor: '#667eea',
+        color: 'white',
+        '& .MuiAccordionSummary-expandIcon': {
+          color: 'white',
+        },
+      },
+    },
+    '& .MuiAccordionDetails-root': {
+      padding: theme.spacing(3),
     },
   },
   previewCard: {
@@ -434,21 +599,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Collapsible = ({ label, children }) => {
+  const classes = useStyles();
   const [expanded, setExpanded] = useState(true);
   
   return (
-    <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="body2" component="div">
-          {label}
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box width="100%">
-          {children}
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+    <Box className={classes.formulaSection}>
+      <Accordion 
+        expanded={expanded} 
+        onChange={() => setExpanded(!expanded)}
+        elevation={0}
+      >
+        <AccordionSummary 
+          expandIcon={<ExpandMoreIcon />}
+          sx={{ 
+            borderRadius: expanded ? '14px 14px 0 0' : '14px',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          <Typography 
+            variant="body1" 
+            component="div"
+            sx={{ 
+              fontWeight: 600,
+              fontSize: '1rem',
+            }}
+          >
+            {label}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box width="100%">
+            {children}
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 
@@ -505,12 +690,28 @@ const ConditionOperand = ({ node, onChange, label }) => {
       }}
     >
       {/* Type Selector */}
-      <FormControl size="small" variant="outlined" sx={{ minWidth: 80, maxWidth: 80 }}>
+      <FormControl 
+        size="small" 
+        variant="outlined" 
+        sx={{ minWidth: 100, maxWidth: 100 }}
+        className={classes.typeSelector}
+      >
         <InputLabel>Type</InputLabel>
         <Select
           value={node.type}
           onChange={changeType}
           label="Type"
+          MenuProps={{
+            classes: { paper: classes.enhancedDropdown },
+            PaperProps: {
+              style: {
+                borderRadius: '16px',
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+                border: '1px solid #e2e8f0',
+                marginTop: '8px',
+              },
+            },
+          }}
         >
           <MenuItem value="cellValue">
             <Box display="flex" alignItems="center" gap={0.5}>
@@ -712,19 +913,47 @@ const FormulaNode = ({ node, onChange }) => {
                 onChange={changeType}
                 onClick={(e) => e.stopPropagation()}
                 label="Type"
+                MenuProps={{
+                  classes: { paper: classes.enhancedDropdown },
+                  PaperProps: {
+                    style: {
+                      borderRadius: '16px',
+                      boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+                      border: '1px solid #e2e8f0',
+                      marginTop: '8px',
+                    },
+                  },
+                }}
               >
                 {_FunctionList.map((f) => (
                   <MenuItem key={f} value={f}>
-                    <Box display="flex" alignItems="center" gap={0.5}>
-                      {f === 'cellValue' && '📊'}
-                      {f === 'number' && '🔢'}
-                      {f === 'textbox' && '📝'}
-                      {f === 'operator' && '⚡'}
-                      {f === 'if' && '🔀'}
-                      {f === 'lookup' && '🔍'}
-                      <span style={{ marginLeft: 4 }}>
-                        {f === 'cellValue' ? 'Cell' : f === 'textbox' ? 'Text' : f === 'number' ? 'Number' : f}
-                      </span>
+                    <Box display="flex" alignItems="center" width="100%">
+                      <Box className={classes.dropdownIcon}>
+                        {f === 'cellValue' && '📊'}
+                        {f === 'number' && '🔢'}
+                        {f === 'textbox' && '📝'}
+                        {f === 'operator' && '⚡'}
+                        {f === 'if' && '🔀'}
+                        {f === 'lookup' && '🔍'}
+                      </Box>
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
+                          {f === 'cellValue' ? 'Cell Reference' : 
+                           f === 'textbox' ? 'Text Value' : 
+                           f === 'number' ? 'Number Value' : 
+                           f === 'operator' ? 'Math Operation' :
+                           f === 'if' ? 'IF Condition' :
+                           f === 'lookup' ? 'LOOKUP Function' : f}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
+                          {f === 'cellValue' ? 'Reference a cell (A1, [99999])' : 
+                           f === 'textbox' ? 'Static text or string' : 
+                           f === 'number' ? 'Numeric constant' : 
+                           f === 'operator' ? 'Add, subtract, multiply, divide' :
+                           f === 'if' ? 'Conditional logic with true/false' :
+                           f === 'lookup' ? 'Find values in ranges' : ''}
+                        </Typography>
+                      </Box>
                     </Box>
                   </MenuItem>
                 ))}
@@ -992,7 +1221,11 @@ const FormulaNode = ({ node, onChange }) => {
                 {/* Operator after this argument (except for the last argument) */}
                 {i < (node.args || []).length - 1 && (
                   <Box display="flex" justifyContent="center" my={1}>
-                    <FormControl size="small" style={{ minWidth: 150 }}>
+                    <FormControl 
+                      size="small" 
+                      style={{ minWidth: 180 }}
+                      className={classes.typeSelector}
+                    >
                       <InputLabel>Operator</InputLabel>
                       <Select
                         value={(node.operators || [node.operator] || ['+'])[i] || '+'}
@@ -1005,10 +1238,42 @@ const FormulaNode = ({ node, onChange }) => {
                             operator: undefined // Remove old single operator property
                           });
                         }}
+                        MenuProps={{
+                          classes: { paper: classes.enhancedDropdown },
+                          PaperProps: {
+                            style: {
+                              borderRadius: '16px',
+                              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+                              border: '1px solid #e2e8f0',
+                              marginTop: '8px',
+                            },
+                          },
+                        }}
                       >
                         {_OperatorList.map((op) => (
                           <MenuItem key={op} value={op}>
-                            {op} ({op === '+' ? 'Add' : op === '-' ? 'Subtract' : op === '*' ? 'Multiply' : 'Divide'})
+                            <Box display="flex" alignItems="center" width="100%">
+                              <Box className={classes.dropdownIcon} sx={{ 
+                                backgroundColor: op === '+' ? '#e8f5e8' : 
+                                                op === '-' ? '#fff3e0' : 
+                                                op === '*' ? '#e3f2fd' : '#fce4ec',
+                                color: op === '+' ? '#2e7d32' : 
+                                       op === '-' ? '#f57c00' : 
+                                       op === '*' ? '#1976d2' : '#c2185b'
+                              }}>
+                                <Box sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{op}</Box>
+                              </Box>
+                              <Box>
+                                <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
+                                  {op === '+' ? 'Addition' : op === '-' ? 'Subtraction' : op === '*' ? 'Multiplication' : 'Division'}
+                                </Typography>
+                                <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
+                                  {op === '+' ? 'Add values together' : 
+                                   op === '-' ? 'Subtract second from first' : 
+                                   op === '*' ? 'Multiply values' : 'Divide first by second'}
+                                </Typography>
+                              </Box>
+                            </Box>
                           </MenuItem>
                         ))}
                       </Select>
@@ -1091,7 +1356,12 @@ const FormulaNode = ({ node, onChange }) => {
                 <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600, color: '#1976d2' }}>
                   Operator
                 </Typography>
-                <FormControl size="small" variant="outlined" sx={{ minWidth: 80 }}>
+                <FormControl 
+                  size="small" 
+                  variant="outlined" 
+                  sx={{ minWidth: 100 }}
+                  className={classes.typeSelector}
+                >
                   <InputLabel>Op</InputLabel>
                   <Select
                     value={node.condition.operator}
@@ -1102,14 +1372,44 @@ const FormulaNode = ({ node, onChange }) => {
                       })
                     }
                     label="Op"
+                    MenuProps={{
+                      classes: { paper: classes.enhancedDropdown },
+                      PaperProps: {
+                        style: {
+                          borderRadius: '16px',
+                          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+                          border: '1px solid #e2e8f0',
+                          marginTop: '8px',
+                        },
+                      },
+                    }}
                   >
                     {_ConditionList.map((c) => (
                       <MenuItem key={c} value={c}>
-                        <Box display="flex" alignItems="center" gap={0.5}>
-                          <span style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>{c}</span>
-                          <span style={{ fontSize: '0.75rem', color: '#666' }}>
-                            {c === '=' ? 'equals' : c === '<' ? 'less' : c === '>' ? 'greater' : 'not equal'}
-                          </span>
+                        <Box display="flex" alignItems="center" width="100%">
+                          <Box className={classes.dropdownIcon} sx={{ 
+                            backgroundColor: c === '=' ? '#e8f5e8' : 
+                                            c === '<' ? '#fff3e0' : 
+                                            c === '>' ? '#e3f2fd' : '#fce4ec',
+                            color: c === '=' ? '#2e7d32' : 
+                                   c === '<' ? '#f57c00' : 
+                                   c === '>' ? '#1976d2' : '#c2185b',
+                            fontFamily: 'monospace',
+                            fontWeight: 'bold',
+                            fontSize: '1.2rem'
+                          }}>
+                            {c}
+                          </Box>
+                          <Box>
+                            <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
+                              {c === '=' ? 'Equals' : c === '<' ? 'Less Than' : c === '>' ? 'Greater Than' : 'Not Equal'}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
+                              {c === '=' ? 'Values are equal' : 
+                               c === '<' ? 'Left is smaller than right' : 
+                               c === '>' ? 'Left is greater than right' : 'Values are different'}
+                            </Typography>
+                          </Box>
                         </Box>
                       </MenuItem>
                     ))}
